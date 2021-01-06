@@ -58,4 +58,4 @@ const observable = new Observable((subscriber)=> {
   }, 100)
 })
 
-const sub = observable.subscribe(subscriber)
+const sub = observable.subscribe(observer)
