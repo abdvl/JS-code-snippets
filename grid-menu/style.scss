@@ -1,0 +1,52 @@
+
+
+body{
+    font-family: BLOKK Neue;
+    // display: grid;
+    // grid: [stack]  1fr/ min-content [stack] 1fr;
+
+    // @media (max-width:540px) {
+    //     &  > :is(aside, main){
+    //         grid-area: stack;
+    //     }
+    // }
+
+    display: flex;
+}
+
+
+
+#sidenav-open {
+    --duration:0.6s;    
+    display: grid;
+    flex: 0 0 300px;
+    @media (max-width:540px){
+        position: absolute;
+        width: 100vw;
+        // position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden auto;
+        overscroll-behavior: none;
+        transform: translateX(-100vw);
+        transition: all var(--duration) ease, visibility 0s linear;
+        will-change: transform;
+        &:target{
+            flex-basis: 100vh;
+            grid-template-columns: 2fr 1fr;
+            background: #ccc;
+            transform: translateX(0);
+            visibility: visible;
+        }
+    }
+
+    @media (prefer-reduced-motion:reduce){
+        --duration: 1ms;
+    }
+}
+
+@media (min-width: 540px) {
+    #sidenav-button,#sidenav-close {
+        display:none
+    }
+}
