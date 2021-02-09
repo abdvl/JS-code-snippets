@@ -9,7 +9,7 @@
 </head>
 <style>
     .calender {
-        width: 360px;
+        width: 20em;
     }
 
     .calender__actions {
@@ -31,7 +31,7 @@
     }
 
     .calender__table {
-        display: grid; 
+        display: grid;
         grid-template-columns: repeat(7, 1fr);
         grid-template-rows: repeat(5, 1fr);
         /* display: flex; */
@@ -40,13 +40,14 @@
 
     .calender__table__cell {
         /* width: 50px; */
+        /* flex: 1 0 50px; */
+        --border-width: 1px;
         height: 50px;
-
-        flex: 1 0 50px;
-        border: 1px solid #ccc;
-        margin-top: -1px;
-        margin-left: -1px;
+        border: var(--border-width) solid #ccc;
+        margin-top: calc(var(--border-width) * -1);
+        margin-left:calc(var(--border-width) * -1);
         cursor: pointer;
+        /*  */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -55,13 +56,55 @@
     .calender__table__cell:hover {
         background-color: #ccc;
     }
-    .calender__table__cell__current{
+
+    .calender__table__cell__current {
         background: yellow;
     }
 </style>
+<div class="calender">
+    <div>
+        <div class="calender__actions">
+            <button class="calender__actions__previous_month" title="Previous Month">
+                &lt; </button>
+            <span></span>
+            <button class="calender__actions__next_month" title="Next Month">&gt;</button>
+        </div>
+    </div>
+    <div class="calender__table">
+        <div class="calender__table__cell" title="Sun Jan 31 2021 00:00:00 GMT-0800 (Pacific Standard Time)">31</div>
+        <div class="calender__table__cell" title="Mon Feb 01 2021 00:00:00 GMT-0800 (Pacific Standard Time)">1</div>
+        <div class="calender__table__cell" title="Tue Feb 02 2021 00:00:00 GMT-0800 (Pacific Standard Time)">2</div>
+        <div class="calender__table__cell" title="Wed Feb 03 2021 00:00:00 GMT-0800 (Pacific Standard Time)">3</div>
+        <div class="calender__table__cell" title="Thu Feb 04 2021 00:00:00 GMT-0800 (Pacific Standard Time)">4</div>
+        <div class="calender__table__cell" title="Fri Feb 05 2021 00:00:00 GMT-0800 (Pacific Standard Time)">5</div>
+        <div class="calender__table__cell" title="Sat Feb 06 2021 00:00:00 GMT-0800 (Pacific Standard Time)">6</div>
+        <div class="calender__table__cell" title="Sun Feb 07 2021 00:00:00 GMT-0800 (Pacific Standard Time)">7</div>
+        <div class="calender__table__cell calender__table__cell__current"
+            title="Mon Feb 08 2021 00:00:00 GMT-0800 (Pacific Standard Time)">8</div>
+        <div class="calender__table__cell" title="Tue Feb 09 2021 00:00:00 GMT-0800 (Pacific Standard Time)">9</div>
+        <div class="calender__table__cell" title="Wed Feb 10 2021 00:00:00 GMT-0800 (Pacific Standard Time)">10</div>
+        <div class="calender__table__cell" title="Thu Feb 11 2021 00:00:00 GMT-0800 (Pacific Standard Time)">11</div>
+        <div class="calender__table__cell" title="Fri Feb 12 2021 00:00:00 GMT-0800 (Pacific Standard Time)">12</div>
+        <div class="calender__table__cell" title="Sat Feb 13 2021 00:00:00 GMT-0800 (Pacific Standard Time)">13</div>
+        <div class="calender__table__cell" title="Sun Feb 14 2021 00:00:00 GMT-0800 (Pacific Standard Time)">14</div>
+        <div class="calender__table__cell" title="Mon Feb 15 2021 00:00:00 GMT-0800 (Pacific Standard Time)">15</div>
+        <div class="calender__table__cell" title="Tue Feb 16 2021 00:00:00 GMT-0800 (Pacific Standard Time)">16</div>
+        <div class="calender__table__cell" title="Wed Feb 17 2021 00:00:00 GMT-0800 (Pacific Standard Time)">17</div>
+        <div class="calender__table__cell" title="Thu Feb 18 2021 00:00:00 GMT-0800 (Pacific Standard Time)">18</div>
+        <div class="calender__table__cell" title="Fri Feb 19 2021 00:00:00 GMT-0800 (Pacific Standard Time)">19</div>
+        <div class="calender__table__cell" title="Sat Feb 20 2021 00:00:00 GMT-0800 (Pacific Standard Time)">20</div>
+        <div class="calender__table__cell" title="Sun Feb 21 2021 00:00:00 GMT-0800 (Pacific Standard Time)">21</div>
+        <div class="calender__table__cell" title="Mon Feb 22 2021 00:00:00 GMT-0800 (Pacific Standard Time)">22</div>
+        <div class="calender__table__cell" title="Tue Feb 23 2021 00:00:00 GMT-0800 (Pacific Standard Time)">23</div>
+        <div class="calender__table__cell" title="Wed Feb 24 2021 00:00:00 GMT-0800 (Pacific Standard Time)">24</div>
+        <div class="calender__table__cell" title="Thu Feb 25 2021 00:00:00 GMT-0800 (Pacific Standard Time)">25</div>
+        <div class="calender__table__cell" title="Fri Feb 26 2021 00:00:00 GMT-0800 (Pacific Standard Time)">26</div>
+        <div class="calender__table__cell" title="Sat Feb 27 2021 00:00:00 GMT-0800 (Pacific Standard Time)">27</div>
+    </div>
+</div>
 <div id="app">
-    
-   
+
+
 </div>
 
 
@@ -69,42 +112,44 @@
     <script>
 
         const util = {
-            date : {
-                buildDateTable : (date=new Date()) =>{
+            date: {
+                buildCalenderTable: (date = new Date()) => {
                     const dayTime = 24 * 60 * 60 * 1000;
                     const year = date.getFullYear()
                     const month = date.getMonth();
-                    const currentDate = date.getDate();  // day of the month
+                    //const today = new Date();
                     //
-                    const firstDayOfMonth = new Date(year, month, 0);
-                    const firstDayOfMonthDay = firstDayOfMonth.getDay();
+                    const firstDayOfMonth = new Date(year, month);
+                    const firstDayOfMonthDay = firstDayOfMonth.getDay()  ;
                     const paddingPreviousDays = firstDayOfMonthDay;
                     //
-                    const firstDayOfNextMonth = new Date(year, month+1, 0);
-                    const firstDayOfNextMonthDay = firstDayOfNextMonth.getDay();
-                    const paddingNextMonthDays = firstDayOfNextMonthDay == 0 ? 0 : 7 -  firstDayOfNextMonthDay;
+                    const firstDayOfNextMonth = new Date(year, month + 1);
+                    const firstDayOfNextMonthDay = firstDayOfNextMonth.getDay() ;
+                    const paddingNextMonthDays = firstDayOfNextMonthDay == 0 ? 0 : 7 - firstDayOfNextMonthDay; // 35 - paddingPreviousDays - days
 
                     // 
                     const days = (firstDayOfNextMonth.getTime() - firstDayOfMonth.getTime()) / dayTime;
 
                     const dateTable = [];
                     // previous month
-                    for(let i=paddingPreviousDays; i > 0; i--){
+                    for (let i = paddingPreviousDays; i > 0; i--) {
                         dateTable.push({
-                            date: new Date(year,month, -1 * i)
+                            date: new Date(year, month, -1 * (i-1)),
+                            position:[0, paddingPreviousDays - i]
                         })
                     }
                     //current month
-                    for(let i = 0; i<days; i++){
+                    for (let i = 1; i <=days; i++) {
                         dateTable.push({
                             date: new Date(year, month, i),
-                            current : i == currentDate
+                            position:[Math.floor((i + paddingPreviousDays -1) / 7), (paddingPreviousDays + i -1) % 7]
                         })
                     }
                     // next month
-                    for(let i = 0; i <paddingNextMonthDays; i++){
+                    for (let i = 1; i <= paddingNextMonthDays; i++) {
                         dateTable.push({
-                            date: new Date(year, month+1, i)
+                            date: new Date(year, month + 1, i),
+                            position:[Math.floor((i + days + paddingPreviousDays -1) / 7), (i + days + paddingPreviousDays -1) % 7]
                         })
                     }
 
@@ -113,9 +158,9 @@
             }
         }
 
-        function CalenderActionBar(date){
+        function CalenderActionBar(date) {
             const fra = document.createElement("div");
-            fra.innerHTML =  `
+            fra.innerHTML = `
             <div class="calender__actions">
                     <button class="calender__actions__previous_month" title="Previous Month">
                         < </button>
@@ -126,16 +171,19 @@
             return fra;
         }
 
-        function CalenderTable(date){
-            const dataTable = util.date.buildDateTable(date);
+        function CalenderTable(date) {
+            const dataTable = util.date.buildCalenderTable(date);
             const partner = document.createElement("div")
             partner.classList.add("calender__table")
-            dataTable.forEach(item=>{
+            dataTable.forEach(item => {
                 const el = document.createElement("div");
                 el.classList.add("calender__table__cell")
                 el.innerHTML = item.date.getDate();
-                el.setAttribute("title",item.date )
-                if(item.current) el.classList.add("calender__table__cell__current")
+                el.setAttribute("title", item.date)
+                el.setAttribute("data-x", item.position[0])
+                el.setAttribute("data-y", item.position[1])
+                el.setAttribute("title", item.date)
+                if (item.current) el.classList.add("calender__table__cell__current")
                 partner.appendChild(el)
             })
             return partner;
@@ -143,8 +191,8 @@
 
 
         function Calender(props = {}) {
-            const date = props.date ? new Date(props.date):new Date();
-            const calenderTable = new CalenderTable(date) ; // <CalenderTable props...>
+            const date = props.date ? new Date(props.date) : new Date();
+            const calenderTable = new CalenderTable(date); // <CalenderTable props...>
             const calenderActionBar = new CalenderActionBar(date);
 
             const calenderContainer = document.createElement("div")
@@ -154,17 +202,17 @@
             calenderContainer.appendChild(calenderTable)
 
             return calenderContainer;
-            
+
         }
 
-        function App(root){
+        function App(root) {
             const calender = new Calender()
             root.appendChild(calender);
         }
 
         App(document.getElementById("app"))
 
-    
+
 
 
 
