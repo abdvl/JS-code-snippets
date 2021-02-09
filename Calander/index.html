@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .calender {
+        width: 360px;
+    }
+
+    .calender__actions {
+        display: grid;
+        grid-template-columns: 30px 1fr 30px;
+        /* display: flex; */
+        margin: 2px 0;
+    }
+
+    .calender__actions span {
+        text-align: center;
+        font-size: 20px;
+        /* flex-grow: 1; */
+    }
+
+    .calender__actions button {
+        cursor: pointer;
+        /* flex-grow: 0; */
+    }
+
+    .calender__table {
+        display: grid; 
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        /* display: flex; */
+        /* flex-wrap: wrap; */
+    }
+
+    .calender__table__cell {
+        /* width: 50px; */
+        height: 50px;
+
+        flex: 1 0 50px;
+        border: 1px solid #ccc;
+        margin-top: -1px;
+        margin-left: -1px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .calender__table__cell:hover {
+        background-color: #ccc;
+    }
+    .calender__table__cell__current{
+        background: yellow;
+    }
+</style>
+<div id="app">
+    
+   
+</div>
+
+
+<body>
+    <script>
+
+        const util = {
+            date : {
+                buildDateTable : (date=new Date()) =>{
+                    const dayTime = 24 * 60 * 60 * 1000;
+                    const year = date.getFullYear()
+                    const month = date.getMonth();
+                    const currentDate = date.getDate();  // day of the month
+                    //
+                    const firstDayOfMonth = new Date(year, month, 0);
+                    const firstDayOfMonthDay = firstDayOfMonth.getDay();
+                    const paddingPreviousDays = firstDayOfMonthDay;
+                    //
+                    const firstDayOfNextMonth = new Date(year, month+1, 0);
+                    const firstDayOfNextMonthDay = firstDayOfNextMonth.getDay();
+                    const paddingNextMonthDays = firstDayOfNextMonthDay == 0 ? 0 : 7 -  firstDayOfNextMonthDay;
+
+                    // 
+                    const days = (firstDayOfNextMonth.getTime() - firstDayOfMonth.getTime()) / dayTime;
+
+                    const dateTable = [];
+                    // previous month
+                    for(let i=paddingPreviousDays; i > 0; i--){
+                        dateTable.push({
+                            date: new Date(year,month, -1 * i)
+                        })
+                    }
+                    //current month
+                    for(let i = 0; i<days; i++){
+                        dateTable.push({
+                            date: new Date(year, month, i),
+                            current : i == currentDate
+                        })
+                    }
+                    // next month
+                    for(let i = 0; i <paddingNextMonthDays; i++){
+                        dateTable.push({
+                            date: new Date(year, month+1, i)
+                        })
+                    }
+
+                    return dateTable;
+                }
+            }
+        }
+
+        function CalenderActionBar(date){
+            const fra = document.createElement("div");
+            fra.innerHTML =  `
+            <div class="calender__actions">
+                    <button class="calender__actions__previous_month" title="Previous Month">
+                        < </button>
+                        <span></span>
+                            <button class="calender__actions__next_month" title="Next Month">></button>
+            </div>
+            `
+            return fra;
+        }
+
+        function CalenderTable(date){
+            const dataTable = util.date.buildDateTable(date);
+            const partner = document.createElement("div")
+            partner.classList.add("calender__table")
+            dataTable.forEach(item=>{
+                const el = document.createElement("div");
+                el.classList.add("calender__table__cell")
+                el.innerHTML = item.date.getDate();
+                el.setAttribute("title",item.date )
+                if(item.current) el.classList.add("calender__table__cell__current")
+                partner.appendChild(el)
+            })
+            return partner;
+        }
+
+
+        function Calender(props = {}) {
+            const date = props.date ? new Date(props.date):new Date();
+            const calenderTable = new CalenderTable(date) ; // <CalenderTable props...>
+            const calenderActionBar = new CalenderActionBar(date);
+
+            const calenderContainer = document.createElement("div")
+            calenderContainer.classList.add("calender");
+
+            calenderContainer.appendChild(calenderActionBar)
+            calenderContainer.appendChild(calenderTable)
+
+            return calenderContainer;
+            
+        }
+
+        function App(root){
+            const calender = new Calender()
+            root.appendChild(calender);
+        }
+
+        App(document.getElementById("app"))
+
+    
+
+
+
+
+
+    </script>
+</body>
+
+</html>
