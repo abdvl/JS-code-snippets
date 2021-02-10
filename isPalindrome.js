@@ -1,29 +1,18 @@
-const memo = {};
-var isPalindrome = function(s){
-    if(!s) return false;
-    if(memo[s]) return memo[s];
-    let l = 0, r = s.length - 1;
-    let res = true
-    while(l<r){
-        if(!isLetter(s[l])){
-            l++;
-            continue;
-        }
-        if(!isLetter(s[r])){
-            r--;
-            continue;
-        }
-        if(s[l] != s[r]){
-            res = false;
-            break;
-        }
-        l++;
-        r--;
+var isPalindrome = function(s) {
+    if(!s) return true;
+    const chars = s.split("").reduce((acc, char) => {
+        const c = char.charCodeAt(0);
+        if(isLetter(c)) acc.push(char.toLowerCase())
+        return acc
+    },[]);
+        
+    let l = 0; r = chars.length -1;
+    while(l < r){
+        if(chars[l] != chars[r]) return false;
+        l++;r--;
     }
-    memo[s] = res;
-    return res;
-}
-    
-var isLetter = function(t) {
-    return "A".charCodeAt(0) <= t.charCodeAt(0) && t.charCodeAt(0) <= "z".charCodeAt(0);
+    return true
+};
+var isLetter = function(code) {
+    return (code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code >= 97 && code <= 122) // number, lowercase, uppercase
 }
