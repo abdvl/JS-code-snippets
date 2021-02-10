@@ -1,6 +1,6 @@
 var findOrder = function(numCourses, prerequisites) {
     if(numCourses ==1 ) return [0]
-    const id = Array(numCourses).fill(0);
+    const id = Array(numCourses).fill(0); //inDegrees
     const vectors = Array(numCourses).fill("").map(_=>[]);
     prerequisites.forEach(([a, b])=>{
         id[a]++;
