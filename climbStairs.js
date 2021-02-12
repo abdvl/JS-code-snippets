@@ -15,3 +15,14 @@ var climbStairs = function(n) {
 // base cases: 
 // 1. # of ways to reach 0-th floor is 1
 // 2. # of ways to reach 1-st floor is 1
+
+var climbStairs = function(n) {
+    let a = 1, b = 2, next;
+    
+    for(let i = 3; i <= n; i++) {
+        next = a + b;
+        a = b;
+        b = next;
+    }
+    return n === 1 ? a : b;
+};
