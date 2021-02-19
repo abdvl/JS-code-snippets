@@ -23,6 +23,9 @@
  - guess_count
  - status
  - user_id // enum: in-progress/success/failed
+ - guesses:[]
+ - word// __x_
+ - show_hint:false
  - created_at
 
 /game_activities
@@ -30,13 +33,10 @@
  - game_id
  - type // guess/show_hint/cancel/ join/left
  - payload // guess character / user ID
- - status
- - guesses:[]
- - word// __x_
  - user_id
  - created_at
 
-/game_users
+* /game_users
  - id
  - game_id
  - user_id
@@ -55,10 +55,15 @@ Response:
  - hint
  - guess_count
  - status
+ - guesses:[]
+ - word// __x_
  - created_at
 
 ### step 2 : post guess
-POST /game_activities/
+Hypertext Application Language (HAL standard)
+'embedded resources', but in the examples shown, there doesn't seem to be any way to choose which resources to
+
+POST /game_activities/?embed=game
 Payload : 
  - game_id
  - type: guess
@@ -69,12 +74,17 @@ Response :
  - game_id
  - type // guess/show_hint/cancel/ join/left
  - payload // guess character / user ID
- - status
- - show_hint // true/false
- - guesses:[]
- - word// __x_
- - user_id
- - created_at
+ - game
+   - id
+   - category_id
+   - category_name
+   - hint
+   - guess_count
+   - status
+   - guesses:[]
+   - word// __x_
+   - show_hint:false
+   - created_at
 
 
 ## Redux Store

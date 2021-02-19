@@ -2,13 +2,14 @@ const store = {
     game: {
         hint: "xxx",
         guess_count: 10,
-        word: "python"
-    },
-    status: {
+        word: "python",
         status: "in-progress",
         guess: [],
         word: "",
         show_hint: false
+    },
+    status: {
+        
     }
 }
 
