@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="search">
+        <div class="search__input">
+            <input type="text" placeholder="search">
+        </div>
+        <div class="search__result">
+            <ul class="search__result__list">
+                <li>
+                    <a class="search__result__item"  data-type="company">
+                        <img src="" alt="">
+                        <span class="title">LinkedIn</span>
+                        <span class="subtitle">company</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item"  data-type="company">
+                        <img src="" alt="">
+                        <span class="title">LinkedIn Japan</span>
+                        <span class="subtitle">company</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item"  data-type="company">
+                        <img src="" alt="">
+                        <span class="title">LinkedIn UK</span>
+                        <span class="subtitle">company</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item"  data-type="company">
+                        <img src="" alt="">
+                        <span class="title">LinkedIn</span>
+                        <span class="subtitle">company</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item" data-type="user">
+                        <img src="" alt="">
+                        <span class="title">Link Smith</span>
+                        <span class="subtitle">Engineer</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item" data-type="user">
+                        <img src="" alt="">
+                        <span class="title">Link Don</span>
+                        <span class="subtitle">Engineer</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="search__result__item" data-type="user">
+                        <img src="" alt="">
+                        <span class="title">Link Rogan</span>
+                        <span class="subtitle">Engineer</span>
+                    </a>
+                </li>
+                
+            </ul>
+            <div class="search__result__more">
+                <a href="">See all result</a>
+            </div>
+        </div>
+
+
+        <br><br><br><br><br><br><br><br>
+        <div class="search">
+            <div class="search__input">
+                <input type="text" placeholder="search">
+            </div>
+        </div>
+
+
+    </div>
+
+    <style>
+        ul{
+            padding: 0;
+            margin: 0;
+        }
+
+        li{
+            list-style: none;
+        }
+
+        .search{
+            width:30em;
+        }
+
+        .search__input{
+            display: flex;   
+        }
+
+        .search__input input{
+            flex-basis: 100%;
+            margin: .3em 0;
+        }
+
+        .search__result{
+            border: 1px gray solid;
+            border-radius: 0 0 .5em .5em;
+        }
+
+        .search__result__list{
+            padding: 0;
+        }
+
+        .search__result__item{
+            display: flex;
+            margin: .4em 0;
+            align-items: center;
+        }
+
+        .search__result__item img{
+            background: gray;
+            height: 1rem;
+            width: 1rem;
+            border-radius: 1rem;
+            margin: 0 .3em;
+        }
+
+        .search__result__item .title{
+            font-size: 1.2rem;
+            margin: 0 .5em;
+        }
+        .search__result__item .subtitle{
+            font-size: 0.8rem;
+            color: gray;
+        }
+    
+        .search__result__more{
+            display: flex;
+            justify-content: center;
+            border-top: 1px gray solid;
+        }
+
+
+
+    </style>
+    <script>
+        // PATH: /search?key=lin&offset=0&limit=6&locale=en
+        const search_response = {
+            data:{
+                key:"lin",
+                items:[
+                    {
+                        "type":"company",
+                        "title":{
+                            "text":"LinkedIn"
+                        },
+                        "subtitle":{
+                            "text":"subtitle"
+                        },
+                        "image":{
+                            "url":""
+                        },
+                        link:""
+                    }
+                ]
+            },
+            paging:{
+                total:30,
+                offset:0,
+                limit:6,
+                previous:null,
+                next:"/search?offset=1&limit=6",
+            },
+            meta:{
+                "locale":"en"
+            }
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<h1>Abu Tab Experimental</h1>
+
+<div class="tab">
+  <details>
+    <summary>Tab 1</summary>
+    <div class="tab__contain">
+      lorim epusm1
+    </div>
+    <div></div>
+  </details>
+  <details>
+    <summary class="tab___summary">Tab 2</summary>
+    <div class="tab__contain">
+      lorim epusm 2
+      
+      <br />
+      
+      <br />
+      
+      <br />
+      
+      <br />123
+      
+    </div>
+    <div></div>
+  </details>
+  <details>
+    <summary class="tab___summary">Tab 3</summary>
+    <div class="tab__contain">
+      lorim epusm
+    </div>
+    <div></div>
+  </details>
+</div>
+
+<h3>Tab 2</tab>
+
+<div class="tab">
+  <details>
+    <summary class="tab___summary">Tab 1</summary>
+    <div class="tab__contain">
+      lorim epusm
+    </div>
+    <div></div>
+  </details>
+  <details>
+    <summary class="tab___summary">Tab 2</summary>
+    <div class="tab__contain">
+      lorim epusm
+    </div>
+    <div></div>
+  </details>
+  <details>
+    <summary class="tab___summary">Tab 2</summary>
+    <div class="tab__contain">
+      lorim epusm
+    </div>
+    <div></div>
+  </details>
+</div>
+
+<style>
+    .tab {
+  display : flex;
+  flex-wrap : wrap;
+  width : 50rem;
+  position: relative;
+}
+
+.tab details {
+  flex : 1 1 250px;
+  overflow : auto;
+}
+
+.tab summary {
+  padding : 30px;
+  background : #ccc;
+  margin : 3px;
+}
+
+.tab details[open] summary {
+  background : #999;
+}
+
+.tab .tab__contain {
+ right: 0px;
+  margin : -3px 3px 3px 3px;
+  position:absolute;
+  left : 0px;
+  background : #999;
+  
+}
+
+</style>
+
+<script>
+    Array.prototype.forEach.call(document.querySelectorAll(".tab"), (tab)=>{
+  tab.addEventListener("click", (e) =>{
+    if(e.target.localName !== "summary"){
+      return
+    }
+    const summary = e.target;
+    const activeTab = tab["activeTab"];
+    if(activeTab && activeTab != summary.parentElement){
+        activeTab.removeAttribute("open")
+     }
+     tab["activeTab"] = summary.parentElement;
+    setTimeout(()=>{
+      summary.nextElementSibling.nextElementSibling.style.height = summary.nextElementSibling.offsetHeight + "px";
+    }, 0)
+  })
+ 
+})
+</script>

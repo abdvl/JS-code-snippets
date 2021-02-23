@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .editor {
+            position: relative;
+        }
+
+        .editor__canvas {
+            border: solid 1px #ccc;
+            width: 40em;
+            margin: 3em auto;
+            padding: .5em;
+        }
+
+        .red {
+            border-bottom: 1px red dotted;
+        }
+
+        .editor__tooltip {
+            position: fixed;
+            border: solid 1px #ccc;
+            box-shadow: 0 0 10px #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transform: translateX(-50%) translateY(-100%);
+            background: white;
+            display: none;
+        }
+        .editor__tooltip span{
+            font-weight: bold;
+        }
+        .editor__tooltip button{
+            
+        }
+    </style>
+    <div class="editor">
+        <div contenteditable="true" class="editor__canvas">I am a <span class="red"
+                data-value="javascript">javescript</span> developer</div>
+        <div class="editor__tooltip"><span></span> <button>Fix</button></div>
+    </div>
+
+    <script>
+        /**
+         * 
+         **/
+         const debounce = (fn, timeout)=>{
+            let timer = null;
+            return function(){
+                if(timer) clearTimeout(timer)
+                timer = setTimeout(()=>{
+                    fn(arguments)
+                }, timeout)
+            }
+        }
+
+
+        const editor = document.querySelector(".editor");
+        const canvas = editor.querySelector(".editor__canvas");
+
+        canvas.addEventListener("input", (e) => {
+            spellCheck();
+        })
+
+        
+        // right click
+        editor.addEventListener("contextmenu", (e) => {
+            const span = e.target;
+            if (span.classList.contains("red")) {
+                showFixTooltips(span);
+            }
+            e.preventDefault()
+        })
+
+                // editor.addEventListener("click", (e) => {
+        //     const span = e.target;
+        //     if (span.classList.contains("red")) {
+        //         showFixTooltips(span);
+        //     }
+        // })
+
+        editor.addEventListener("focusout", (e) => {
+        })
+
+
+
+        /*
+        * spellCheck
+        */
+        const value = "I am a javascript developer"
+        const spellCheck = debounce(()=>{
+            const val = canvas.innerText.split(" ");
+            const res = value.split(" ").map((word,index)=>{
+                return word == val[index] ? word : `<span class="red" data-value="${word}">${val[index]}</span>`;
+            })
+            canvas.innerHTML = res.join(" ")
+        },300)
+
+
+
+
+        /* 
+        * tooltip
+        */
+        const tooltip = document.querySelector(".editor__tooltip");
+        const tooltip_span = document.querySelector(".editor__tooltip span");
+        const tooltip_button = document.querySelector(".editor__tooltip button");
+        //
+        tooltip_button.addEventListener("click",()=>{
+            tooltip.element.innerText = tooltip.value;
+            tooltip.element.classList.remove("red")
+            closeFixTooltip();
+        },true)
+
+
+        //
+        const showFixTooltips =  (el)=> {
+            const value = el.getAttribute("data-value")
+            const position = el.getBoundingClientRect();
+            tooltip_span.innerText = value;
+            tooltip.style.left = (position.left + position.width/2)+ "px";
+            tooltip.style.top = position.top + "px";
+            tooltip.style.display = "block";
+
+            //dom store
+            tooltip.element = el;
+            tooltip.value = value;
+        }
+
+        const closeFixTooltip = ()=>{
+            tooltip.style.display = "none"
+        }
+
+
+        /*
+        * selection API
+        */
+        document.addEventListener("selectstart", (e) => {
+            console.log(e)
+        })
+        document.addEventListener("selectionchange", (e) => {
+            //window.getSelection()
+        })
+
+    </script>
+
+</body>
+
+</html>

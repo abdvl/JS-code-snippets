@@ -1,0 +1,96 @@
+<div class="carousel">
+    <div class="carousel__buttons">
+      <button class="carousel__buttons__previous"><</button>
+      <button class="carousel__buttons__next">></button>
+    </div>
+    <div class="carousel__slides">
+      <div class="carousel__slide">1</div>
+      <div class="carousel__slide">2</div>
+      <div class="carousel__slide">3</div>
+      <div class="carousel__slide">4</div>
+    </div>
+  </div>
+
+  <style>
+      .carousel{
+  width: 40em;
+  height : 10em;
+  border: solid 1px #ccc;
+  position : relative;
+}
+.carousel__buttons {
+  width : 100%;
+  position: absolute;
+}
+
+.carousel__buttons__previous{
+   position: absolute;
+   left : -.5em;
+   top: 5em;
+   border-radius : .5em;
+}
+
+.carousel__buttons__next{
+   position: absolute;
+   right : -.5em;
+   top: 5em;
+   border-radius : .5em;
+}
+
+.carousel__slides {
+  height: 100%;
+  display: flex;
+  overflow-x : auto;
+  scroll-snap-type: x mandatory;  
+  overflow-scolling: touch;
+}
+
+.carousel__slide{
+  background : #ccc;
+  flex-shrink : 0;
+  width: 100%;
+
+  display:flex;
+  justify-content: center;
+  align-items : center;
+  font-size : 4em;
+  scroll-snap-align: center;
+}
+  </style>
+
+<script>
+    class Carousel {
+  
+  constructor(node, count, current = 0){
+     console.debug(arguments)
+    this.node = node;
+    this.count = count;
+    this.index = current;
+    this.scrollWidth = node.scrollWidth;
+    this.width = node.offsetWidth;
+   
+    console.debug(node.querySelector(".carousel__buttons__next"))
+    node.querySelector(".carousel__buttons__next").addEventListener("click", this.next)
+    node.querySelector(".carousel__buttons__previous").addEventListener("click", this.previous)
+  }
+  
+  next (){
+    if(this.index < this.count){
+      this.index++;
+      this.node.scrollTo({left : this.index * this.width, behavior:'smooth'})
+    }
+  }
+  
+  previous (){
+    if(this.index > 0){
+      this.index--;
+      this.node.scrollTo({left : this.index * this.width, behavior:'smooth'})
+    }
+  }
+  
+  
+}
+const carousel1 = new Carousel(document.querySelector(".carousel"), 4)
+
+
+</script>

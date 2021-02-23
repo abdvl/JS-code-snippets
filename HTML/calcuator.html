@@ -1,0 +1,169 @@
+<div class="calculator">
+    <div class="calculator__display">
+        <div class="calculator__display__sign"></div>
+        <div class="calculator__display__number"></div>
+    </div>
+    <div class="calculator__keypad">
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>0</button>
+        <button data-type="operator">+</button>
+        <button data-type="operator">-</button>
+        <button data-type="operator">*</button>
+        <button data-type="operator">/</button>
+        <button data-value="clear" data-type="action">CE</button>
+        <button data-value="sum" data-type="action">=</button>
+
+    </div>
+</div>
+
+<style>
+    .calculator {
+        width: 25em;
+        border: solid 1px #ccc;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .calculator__display {
+        background: #ccc;
+    }
+
+    .calculator__display__sign {
+        text-align: right;
+        height: 1em;
+        color: gray;
+    }
+
+    .calculator__display__number {
+        text-align: right;
+        height: 1em;
+        font-size: 3rem;
+        color: gray;
+        font-weight: bold;
+
+    }
+
+    .calculator__keypad {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .calculator__keypad button {
+        flex: 1 0 30%;
+        margin: .5em;
+    }
+</style>
+
+<script>
+
+    class Calculator {
+        constructor() {
+            this.stack = [];
+            this.currentSign = null;
+            this.currentNumber = "0"
+            this.previousKeyType = null;
+        }
+
+        update(type, payload) {
+            if (type == "action") {
+                if (payload == "clear") this.reset();
+                if (payload == "sum") this.sum();
+                this.previousKeyType = "action"
+            }
+            if (type == "operator") {
+                this.updateOperation(payload);
+                this.previousKeyType = "operator"
+            }
+            if (type == "number") {
+                this.updateNumber(payload)
+                this.previousKeyType = "number";
+            }
+        }
+
+        updateNumber(payload) {
+            if (this.currentNumber == "0" || this.previousKeyType == "operator" || this.previousKeyType == "action") {
+                this.currentNumber = payload
+            } else {
+                this.currentNumber = this.currentNumber + String(payload);
+            }
+        }
+
+        updateOperation(payload = null) {
+            const { stack, previousKeyType } = this;
+            const sign = this.currentSign || "+";
+            const currentNumber = parseFloat(this.currentNumber);
+            switch (sign) {
+                case "+":
+                    if (previousKeyType == "number") stack.push(currentNumber);
+                    break;
+                case "-":
+                    if (previousKeyType == "number") stack.push(currentNumber * -1);
+                    break;
+                case "*":
+                    if (previousKeyType == "number") stack.push(stack.pop() * currentNumber)
+                case "/":
+                    if (previousKeyType == "number") stack.push(stack.pop() / currentNumber)
+                    break;
+            }
+            this.currentSign = payload;
+            this.evaluate();
+        }
+
+        evaluate() {
+            if(this.stack.length > 1){
+                this.currentNumber = this.stack.reduce((a, i) => a + i, 0);
+            }
+        }
+
+        sum() {
+            // add last number
+            this.updateOperation();
+            //
+            this.evaluate();
+        }
+
+        reset() {
+            this.currentSign = null;
+            this.currentNumber = "0"
+            this.previousKeyType = null;
+            this.stack = [];
+        }
+    }
+
+
+
+
+
+    const calculator = new Calculator()
+
+    // UI
+    const sign = document.querySelector(".calculator__display__sign");
+    const number = document.querySelector(".calculator__display__number");
+    const keypad = document.querySelector(".calculator__keypad");
+
+    keypad.addEventListener("click", (e) => {
+        const target = e.target;
+        const type = target.getAttribute("data-type") || "number";
+        const value = target.getAttribute("data-value") || target.innerText;
+        calculator.update(type, value);
+        render()
+    })
+
+
+    //
+
+    const render = function () {
+        sign.innerText = calculator.currentSign;
+        number.innerText = calculator.currentNumber;
+    }
+
+
+</script>

@@ -1,0 +1,50 @@
+<div class="rating">
+    <input type="radio" value="1" id="id-1" name="start">
+    <label for="id-1"></label>
+    <input type="radio" value="2" id="id-2" name="start">
+    <label for="id-2"></label>
+    <input type="radio" value="3" id="id-3" name="start">
+    <label for="id-3"></label>
+    <input type="radio" value="4" id="id-4" name="start">
+    <label for="id-4"></label>
+    <input type="radio" value="5" id="id-5" name="start">
+    <label for="id-5"></label>
+  </div>
+
+  <style>
+      .rating {
+  width: 5em;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.rating>label {
+  width: 1em;
+  height: 1em;
+  cursor: pointer;
+}
+
+.rating input {
+  display: none;
+}
+
+.rating>label:before {
+  content: "☆";
+}
+
+
+
+.rating>label:hover:before,
+.rating>label:hover~label:before {
+  content: "★";
+  color: #f00;
+}
+
+.rating input:checked~label:before {
+  content: "★";
+  color: #f00;
+}
+
+  </style>
+
+  
